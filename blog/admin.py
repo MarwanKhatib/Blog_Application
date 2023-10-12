@@ -5,7 +5,7 @@ from . import models
 
 
 @admin.register(models.Post)
-class Post_Admin(admin.ModelAdmin):
+class PostAdmin(admin.ModelAdmin):
     list_display = ["title", "slug", "author", "publish", "status"]
     list_filter = ["status", "created", "publish", "author"]
     search_fields = ["title", "body"]
@@ -13,3 +13,11 @@ class Post_Admin(admin.ModelAdmin):
     raw_id_fields = ["author"]
     date_hierarchy = "publish"
     ordering = ["status", "publish"]
+
+
+@admin.register(models.Comment)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ["name", "email", "post", "created", "active"]
+    list_filter = ["active", "created", "updated"]
+    search_fields = ["name", "email", "body"]
+    
