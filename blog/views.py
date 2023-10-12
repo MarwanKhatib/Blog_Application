@@ -3,7 +3,8 @@ from django.http import Http404
 from . import models
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.generic import ListView
-
+from .forms import EmailPostForm
+from django.core.mail import send_mail
 
 # def posts_list(request):
 #     posts = models.Post.objects.all()
@@ -40,3 +41,22 @@ def post_details(request, year, month, day, post):
         status=models.Post.Status.PUBLISHED,
     )
     return render(request, "blog/post/details.html", {"post": post})
+
+
+def post_share(request, id):
+    post = get_object_or_404(models.Post, id=id, status=models.Post.Status.PUBLISHED)
+    sent = False
+    if request.method == "POST":
+        form = EmailPostForm(request.POST)
+        if form.is_valid():
+            cd = form.cleaned_data
+            post_url = request.build_absolute_uri(post.get_absolute_url())
+            subject = f"{cd['name']} Recommends you read {post.title}"
+            message = f"Read {post.title} at {post_url} \n {cd['name']} 's comments: {cd['comments']}"
+            send_mail(subject, message, "marwanalkhatibeh@gmail.com", [cd["to"]])
+            sent = True
+    else:
+        form = EmailPostForm()
+    return render(
+        request, "blog/post/share.html", {"post": post, "form": form, "sent": sent}
+    )
