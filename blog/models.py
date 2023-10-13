@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.urls import reverse
+from taggit.managers import TaggableManager
 
 # Create your models here.
 
@@ -23,6 +24,7 @@ class Post(models.Model):
     status = models.CharField(
         max_length=2, choices=Status.choices, default=Status.DRAFT
     )
+    tags = TaggableManager()
 
     class Meta:
         # the (-) sign to order desc
@@ -61,4 +63,3 @@ class Comment(models.Model):
 
     def __str__(self) -> str:
         return f"Comment By {self.name} On {self.post}"
-    
