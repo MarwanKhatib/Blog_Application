@@ -5,8 +5,9 @@ from . import views
 app_name = "blog"
 
 urlpatterns = [
-    # path("", views.posts_list, name="posts_list"),
-    path("", views.PostListView.as_view(), name="posts_list"),
+    path("", views.posts_list, name="posts_list"),
+    path("tag/<slug:tag_slug>/", views.posts_list, name="posts_list_by_tag"),
+    # path("", views.PostListView.as_view(), name="posts_list"),
     path(
         "<int:year>/<int:month>/<int:day>/<slug:post>/",
         views.post_details,

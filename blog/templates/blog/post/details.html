@@ -1,38 +1,33 @@
-{%extends 'blog/base.html'%}
+{% extends "blog/base.html" %}
 
-{% block title %}{{post.title}}{% endblock  %}
+{% block title %}{{ post.title }}{% endblock %}
 
 {% block content %}
-    <h1>{{post.title}} </h1>
+    <h1>{{ post.title }}</h1>
     <p class="date">
-        Published {{post.publish}} By: {{post.author}}
+    Published {{ post.publish }} by {{ post.author }}
     </p>
-    {{post.body|linebreaks}}
+    {{ post.body|linebreaks }}
     <p>
         <a href="{% url "blog:post_share" post.id %}">
-            Share This Post
+            Share this post
         </a>
     </p>
-
     {% with comments.count as total_comments %}
         <h2>
-            {{total_comments}} comment{{total_comments|pluralize}}
+            {{ total_comments }} comment{{ total_comments|pluralize }}
         </h2>
     {% endwith %}
-
-    {% for comment in comments  %}
+    {% for comment in comments %}
         <div class="comment">
             <p class="info">
-                Comment {{forloop.counter}} by {{comment.name}}
-                {{comment.created}}
+                Comment {{ forloop.counter }} by {{ comment.name }}
+                {{ comment.created }}
             </p>
-            {{comment.body|linebreaks}}
+            {{ comment.body|linebreaks }}
         </div>
-        {% empty %}
-            <p>There Are No Comments</p>
+    {% empty %}
+        <p>There are no comments.</p>
     {% endfor %}
     {% include "blog/post/includes/comment_form.html" %}
-
-
-
-{% endblock  %}
+{% endblock %}
