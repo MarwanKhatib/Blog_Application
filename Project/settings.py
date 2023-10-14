@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "taggit",
     "django.contrib.sitemaps",
     "django.contrib.sites",
+    "django.contrib.postgres",
 ]
 SITE_ID = 1
 
